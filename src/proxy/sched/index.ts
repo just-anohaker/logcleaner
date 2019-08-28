@@ -1,8 +1,10 @@
 import { Proxy, IProxy, IFacade, IObserver, Observer, INotification } from "pure-framework";
 
 import AppEvents from "../../config/events";
-import { SchedInterval } from "../../config/config";
+// import { SchedInterval } from "../../config/config";
 import { TickBody } from "../../config/types";
+
+const SchedInterval = 100;
 
 class SchedProxy extends Proxy implements IProxy {
     static TagNAME = "sched_proxy";

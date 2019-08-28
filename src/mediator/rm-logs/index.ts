@@ -10,14 +10,21 @@ import { TickBody } from "../../config/types";
 
 class RmLogsMediator extends Mediator implements IMediator {
     private static RM_INTERVAL = 24 * 60 * 60 * 1000;
+    private static CLEAN_INTERVAL = 12 * 60 * 60 * 1000;
 
     private observer: IObserver;
-    private elapsed: number;
+    private rmElapsed: number;
+    private rmdoing: boolean;
+    private cleanElapsed: number;
+    private cleandoing: boolean;
     constructor(facade: IFacade, aName: string, private dappDir: string) {
         super(aName, facade);
 
         this.observer = new Observer(this._onNotification, this);
-        this.elapsed = 0;
+        this.rmElapsed = 0;
+        this.rmdoing = false;
+        this.cleanElapsed = 0;
+        this.cleandoing = false;
     }
 
     onRegister() {
@@ -43,14 +50,22 @@ class RmLogsMediator extends Mediator implements IMediator {
     }
 
     private _onSchedTick(tick: TickBody) {
-        this.elapsed += tick.elapsed;
+        this.rmElapsed += tick.elapsed;
+        this.cleanElapsed += tick.elapsed;
 
-        if (this.elapsed >= RmLogsMediator.RM_INTERVAL) {
-            this.elapsed = 0;
+        if (!this.rmdoing && this.rmElapsed >= RmLogsMediator.RM_INTERVAL) {
+            this.rmElapsed = 0;
+            this.rmdoing = true;
             this._rmUnneededLogs();
+            this.rmdoing = false;
         }
 
-        this._cleanLogsContent();
+        if (!this.cleandoing && this.cleanElapsed >= RmLogsMediator.CLEAN_INTERVAL) {
+            this.cleanElapsed = 0;
+            this.cleandoing = true;
+            this._cleanLogsContent();
+            this.cleandoing = false;
+        }
     }
 
     private get LogsDir(): string {
