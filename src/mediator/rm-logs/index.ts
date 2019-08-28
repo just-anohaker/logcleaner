@@ -44,7 +44,8 @@ class RmLogsMediator extends Mediator implements IMediator {
     private _onSchedTick(tick: TickBody) {
         this.elapsed += tick.elapsed;
 
-        if (true || this.elapsed >= RmLogsMediator.RM_INTERVAL) {
+        if (this.elapsed >= RmLogsMediator.RM_INTERVAL) {
+            this.elapsed = 0;
             this._rmUnneededLogs();
         }
 
