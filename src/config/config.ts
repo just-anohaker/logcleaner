@@ -1,4 +1,4 @@
-export const SchedInterval: number = 5 * 1000;      // interval for sched (5s)
+export const SchedInterval: number = 5 * 60 * 1000;      // interval for sched (5s)
 
 const RootDir: string = "/root/anohaker/etm/dapps";
 const DiceDappId = "5c611b50ac47e136ffc10926895fffec7c32f25d32c2692abb471e250caaebf0";

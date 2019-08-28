@@ -73,6 +73,7 @@ class RmLogsMediator extends Mediator implements IMediator {
             const filepath = path.join(this.LogsDir, filename);
             if (fileexists.sync(filepath) && /^debug.\d*.log$/.test(filename)) {
                 shelljs.exec(`echo "" > ${filepath}`, { silent: true });
+                console.log(`[${this.Name}] clean file[${filename}]`);
             }
         });
     }
@@ -93,6 +94,7 @@ class RmLogsMediator extends Mediator implements IMediator {
             const match = /^debug.(\d+).log$/.exec(filename);
             if (match != null && match[1] !== this.LogsDate) {
                 shelljs.exec(`rm -rf ${filepath}`, { silent: true });
+                console.log(`[${this.Name}] rm file[${filename}]`);
             }
         });
     }
