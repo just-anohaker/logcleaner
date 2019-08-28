@@ -51,7 +51,7 @@ class PM2FlushMediator extends Mediator implements IMediator {
             this.elapsed = 0;
 
             this.doing = true;
-            shelljs.exec("pm2 flush");
+            shelljs.exec("pm2 flush", { silent: true });
             this.doing = false;
         }
     }

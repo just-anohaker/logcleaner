@@ -18,12 +18,14 @@
   },
   "homepage": "https://github.com/just-anohaker/logcleaner#readme",
   "devDependencies": {
+    "@types/file-exists": "^4.0.0",
     "@types/node": "^12.7.2",
     "@types/shelljs": "^0.8.5",
     "ts-node": "^8.3.0",
     "typescript": "^3.5.3"
   },
   "dependencies": {
+    "file-exists": "^5.0.1",
     "pure-framework": "git+https://github.com/just-anohaker/pure-framework.git",
     "shelljs": "^0.8.3"
   }

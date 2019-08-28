@@ -3,6 +3,7 @@ import path = require("path");
 import { Mediator, IMediator } from "pure-framework";
 import { IFacade, INotification, IObserver, Observer } from "pure-framework";
 import shelljs from "shelljs";
+import fileexists from "file-exists";
 
 import AppEvents from "../../config/events";
 import { TickBody } from "../../config/types";
@@ -67,10 +68,10 @@ class RmLogsMediator extends Mediator implements IMediator {
             console.log("dir not exists");
             return;
         }
-        const files = fs.readdirSync(this.LogsDir, { withFileTypes: true });
-        files.forEach(dirent => {
-            if (dirent.isFile() && /^debug.\d*.log$/.test(dirent.name)) {
-                const filepath = path.join(this.LogsDir, dirent.name);
+        const files = fs.readdirSync(this.LogsDir);
+        files.forEach(filename => {
+            const filepath = path.join(this.LogsDir, filename);
+            if (fileexists.sync(filepath) && /^debug.\d*.log$/.test(filename)) {
                 shelljs.exec(`echo "" > ${filepath}`, { silent: true });
             }
         });
@@ -83,12 +84,14 @@ class RmLogsMediator extends Mediator implements IMediator {
         }
 
 
-        const files = fs.readdirSync(this.LogsDir, { withFileTypes: true });
-        files.forEach(dirent => {
-            if (!dirent.isFile()) return;
-            const match = /^debug.(\d+).log$/.exec(dirent.name);
+        const files = fs.readdirSync(this.LogsDir);
+        files.forEach(filename => {
+            const filepath = path.join(this.LogsDir, filename);
+            if (!fileexists.sync(filepath)) {
+                return;
+            }
+            const match = /^debug.(\d+).log$/.exec(filename);
             if (match != null && match[1] !== this.LogsDate) {
-                const filepath = path.join(this.LogsDir, dirent.name);
                 shelljs.exec(`rm -rf ${filepath}`, { silent: true });
             }
         });
