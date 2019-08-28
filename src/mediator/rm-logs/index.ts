@@ -63,9 +63,19 @@ class RmLogsMediator extends Mediator implements IMediator {
         return `${y.toString().padStart(4, "0")}${m.toString().padStart(2, "0")}${d.toString().padStart(2, "0")}`;
     }
 
+    private get LogDateTime(): string {
+        const now = new Date();
+        const y = String(now.getFullYear()).padStart(4, "0");
+        const m = String(now.getMonth() + 1).padStart(2, "0");
+        const d = String(now.getDate()).padStart(2, "0");
+        const h = String(now.getHours()).padStart(2, "0");
+        const M = String(now.getMinutes()).padStart(2, "0");
+        return `${y}-${m}-${d} ${h}:${M}`;
+    }
+
     private _cleanLogsContent() {
         if (!fs.existsSync(this.LogsDir)) {
-            console.log("dir not exists");
+            console.log(`[${this.LogDateTime} ${this.Name}] ` + "dir not exists");
             return;
         }
         const files = fs.readdirSync(this.LogsDir);
@@ -73,14 +83,14 @@ class RmLogsMediator extends Mediator implements IMediator {
             const filepath = path.join(this.LogsDir, filename);
             if (fileexists.sync(filepath) && /^debug.\d*.log$/.test(filename)) {
                 shelljs.exec(`echo "" > ${filepath}`, { silent: true });
-                console.log(`[${this.Name}] clean file[${filename}]`);
+                console.log(`[${this.LogDateTime} ${this.Name}] clean file[${filename}]`);
             }
         });
     }
 
     private _rmUnneededLogs() {
         if (!fs.existsSync(this.LogsDir)) {
-            console.log("dir not exists");
+            console.log(`[${this.LogDateTime} ${this.Name}] ` + "dir not exists");
             return;
         }
 
@@ -94,7 +104,7 @@ class RmLogsMediator extends Mediator implements IMediator {
             const match = /^debug.(\d+).log$/.exec(filename);
             if (match != null && match[1] !== this.LogsDate) {
                 shelljs.exec(`rm -rf ${filepath}`, { silent: true });
-                console.log(`[${this.Name}] rm file[${filename}]`);
+                console.log(`[${this.LogDateTime} ${this.Name}] rm file[${filename}]`);
             }
         });
     }

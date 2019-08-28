@@ -8,7 +8,7 @@ import { TickBody } from "../../config/types";
 class PM2FlushMediator extends Mediator implements IMediator {
     static TagNAME = "pm2flush_mediator";
 
-    private static FLSUH_INTERVAL = 1 * 60 * 60 * 1000;
+    private static FLSUH_INTERVAL = 12 * 60 * 60 * 1000;
 
     private observer: IObserver;
     private elapsed: number;
