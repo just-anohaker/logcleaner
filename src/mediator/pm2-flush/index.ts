@@ -6,7 +6,7 @@ import AppEvents from "../../config/events";
 import { TickBody } from "../../config/types";
 
 class PM2FlushMediator extends Mediator implements IMediator {
-    static TagNAME = "pm2flush_mediator";
+    static TagNAME = "PM2FLUSH_MEDIATOR";
 
     private static FLSUH_INTERVAL = 12 * 60 * 60 * 1000;
 

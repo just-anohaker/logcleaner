@@ -7,7 +7,7 @@ import { TickBody } from "../../config/types";
 const SchedInterval = 100;
 
 class SchedProxy extends Proxy implements IProxy {
-    static TagNAME = "sched_proxy";
+    static TagNAME = "SCHED_PROXY";
 
     private observer: IObserver;
     private schedHandler?: NodeJS.Timeout;

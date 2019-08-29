@@ -8,6 +8,7 @@ import { DiceDapp, SugramDapp } from "../config/config";
 import SchedProxy from "../proxy/sched";
 // mediators
 import RmLogsMediator from "../mediator/rm-logs";
+import PM2FlushMediator from "../mediator/pm2-flush";
 
 class AppFacade extends Facade implements IFacade {
     private static instance?: AppFacade;
@@ -36,8 +37,17 @@ class AppFacade extends Facade implements IFacade {
     }
 
     private _initMediators() {
-        this.registerMediator(new RmLogsMediator(this, "rm_dice_logs_mediator", DiceDapp));
-        this.registerMediator(new RmLogsMediator(this, "rm_sugram_logs_mediator", SugramDapp));
+        this.registerMediator(new RmLogsMediator(
+            this,
+            RmLogsMediator.DiceMediatorName,
+            DiceDapp
+        ));
+        this.registerMediator(new RmLogsMediator(
+            this,
+            RmLogsMediator.SugramMediatorName,
+            SugramDapp
+        ));
+        this.registerMediator(new PM2FlushMediator(this));
     }
 }
 

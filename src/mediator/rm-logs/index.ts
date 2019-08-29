@@ -9,8 +9,11 @@ import AppEvents from "../../config/events";
 import { TickBody } from "../../config/types";
 
 class RmLogsMediator extends Mediator implements IMediator {
-    private static RM_INTERVAL = 24 * 60 * 60 * 1000;
-    private static CLEAN_INTERVAL = 12 * 60 * 60 * 1000;
+    static DiceMediatorName = "DICE_MEDIATOR";
+    static SugramMediatorName = "SUGRAM_MEDIATOR";
+
+    private static RM_INTERVAL = 12 * 60 * 60 * 1000;
+    private static CLEAN_INTERVAL = 6 * 60 * 60 * 1000;
 
     private observer: IObserver;
     private rmElapsed: number;
